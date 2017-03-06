@@ -31,6 +31,7 @@ Vue.component('todo-item', {
     <div id="app-2">
       
       <p>This is app.message: {{ message }}</p>
+      <p>Use a computed property to reverse the message: {{reversedMessage}}</p>
       <span v-bind:title="message2">
         Hover your mouse over me for a few seconds to see my dynamically bound title!
       </span>
@@ -57,6 +58,7 @@ Vue.component('todo-item', {
       <div id="v-model-stuff">
           <p>Vue also provides the v-model directive that makes two-way binding between form input and app state a breeze</p>
           <p>{{ inputExample }}</p>
+          <p>with a filter function: {{ inputExample | capitalize }}</p>
           <input v-model="inputExample">
       </div>
 
@@ -66,6 +68,17 @@ Vue.component('todo-item', {
            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
         </ol>
       </div>
+
+      <div id="watch-example">
+          <h3>watch example</h3>
+          <p>
+            Ask a yes/no question:
+            <input v-model="question">
+          </p>
+          <p>{{ answer }}</p>
+      </div>
+
+
  
    </div> <!-- app-2 div -->
 </body>
@@ -88,6 +101,8 @@ var app = new Vue({
             { text: 'Cheese' },
             { text: 'Whatever else humans are supposed to eat' }
         ],
+        question: '',
+        answer: 'I cannot give you an answer until you ask a question!'
     },
     methods: {
         reverseMessage: function() {
@@ -95,7 +110,39 @@ var app = new Vue({
         },
         addToList: function() {
             this.todos.push({text: "a new item"});
+        },
+        getAnswer: function() {
+            if (this.question.indexOf('?') === -1) {
+                this.answer = 'Questions usually contain a question mark. ;-)'
+                return
+            }
+            else {
+                this.answer = "The answer is 14"
+            }
+        },
+    },
+    // watches - generic way to react to data, handle when u want to perform async actions
+    watch: {
+        question: function(newQuestion) {
+            this.answer = "waiting for u to stop typing"
+            this.getAnswer()
         }
+    },
+    // computed properties - handy for being DRY
+    // could use a method but computed properties are cached based on their dependencies. only re-evaluated when need be.
+    computed: {
+        reversedMessage: function() {
+            return this.message.split('').reverse().join('')
+        }
+    },
+    // custom filters can be applied in moustache sections {{variable | filtername}} and and v-bind expressions
+    // nb: filters can be chained {{message | filterA | filter B}}
+    filters: {  
+        capitalize: function (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.toUpperCase()
+        },
     },
     // instance lifecycle hooks
     // There are also other hooks which will be called at different stages of the 
