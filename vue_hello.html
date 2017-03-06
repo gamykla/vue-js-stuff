@@ -101,8 +101,27 @@ var app = new Vue({
     // There are also other hooks which will be called at different stages of the 
     // instance’s lifecycle, for example mounted, updated, and destroyed. All 
     //lifecycle hooks are called with their this context pointing to the Vue instance invoking it.
+    // lifecycle diagram: https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram
+    beforeCreate: function() {
+        console.log('beforeCreate called')
+    },    
     created: function () {
         console.log('created lifecycle function, says: ' + this.message)
+    },    
+    beforeMount: function () {
+        console.log('beforeMount called')
+    },    
+    mounted: function () {
+        console.log('mounted called')
+    },    
+    beforeUpdate: function () {
+        console.log('beforeUpdate called')
+    },    
+    updated: function () {
+        console.log('updated called')
+    },
+    destroyed: function () {
+        console.log('destroyed called')
     }
 })
 
