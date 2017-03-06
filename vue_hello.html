@@ -11,6 +11,7 @@
 
 <script>
 // A component is essentially a Vue instance with pre-defined options.
+// all Vue components are essentially extended Vue instances.
 Vue.component('todo-item', {
     // The todo-item component now accepts a "prop", which is like a custom attribute. This prop is called todo.
     props: ['todo'],
@@ -71,12 +72,15 @@ Vue.component('todo-item', {
 
 
 <script>
-var app2 = new Vue({
+// Vue API: https://vuejs.org/v2/api/
+var app = new Vue({
     el: '#app-2',
+    // It should be noted that only these proxied properties(in data) are reactive. 
+    // If you attach a new property to the instance after it has been created, it will not trigger any view updates
     data: {
         message: 'Hello Vue.js!',
         message2: 'You are hovering',
-        showText: true,  // in js console of browser set app2.showText = false to make text disappear
+        showText: true,  // in js console of browser set app.showText = false to make text disappear
         todos: [{text: "learn javascript"}, {text: "learn vue"}, {text: "try to love javascript"}],
         inputExample: 'this is an input example',
         groceryList: [
@@ -92,8 +96,19 @@ var app2 = new Vue({
         addToList: function() {
             this.todos.push({text: "a new item"});
         }
+    },
+    // instance lifecycle hooks
+    // There are also other hooks which will be called at different stages of the 
+    // instance’s lifecycle, for example mounted, updated, and destroyed. All 
+    //lifecycle hooks are called with their this context pointing to the Vue instance invoking it.
+    created: function () {
+        console.log('created lifecycle function, says: ' + this.message)
     }
 })
+
+//In addition to data properties, Vue instances expose a number of useful instance properties and methods. 
+//These properties and methods are prefixed with $ to differentiate them from proxied data properties
+console.log(app.$data.message)
 </script>
 
 
