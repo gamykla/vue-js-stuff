@@ -7,7 +7,12 @@
 </head>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
-
+<script>
+// In Vue, a component is essentially a Vue instance with pre-defined options.
+Vue.component('todo-item', {
+    template: '<li>This is a todo, generated from a Vue component</li>'
+})
+</script>
 
 <body>
     <div id="app-2">
@@ -33,7 +38,15 @@
           <p>{{ inputExample }}</p>
           <input v-model="inputExample">
       </div>
-    </div>
+
+      <div>
+        <ol>
+          <!-- Create an instance of the todo-item component -->
+           <todo-item></todo-item>
+        </ol>
+      </div>
+ 
+   </div> <!-- app-2 div -->
 </body>
 
 
