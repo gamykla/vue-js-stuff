@@ -10,17 +10,24 @@
 
 
 <body>
-    <div id="app">
-      <p>{{ message }}</p>
+    <div id="app-2">
+      <p>This is app.message: {{ message }}</p>
+      <span v-bind:title="message2">
+        Hover your mouse over me for a few seconds to see my dynamically bound title!
+      </span>
+      <p v-if="showText">Now you see me</p>
     </div>
+
 </body>
 
 
 <script>
-new Vue({
-  el: '#app',
+var app2 = new Vue({
+  el: '#app-2',
   data: {
-    message: 'Hello Vue.js!'
+    message: 'Hello Vue.js!',
+    message2: 'You are hovering',
+    showText: true,  // in js console of browser set app2.showText = false to make text disappear
   }
 })
 </script>
