@@ -21,11 +21,17 @@
           {{ todo.text }}
         </li>
       </ol> 
+      <!-- To let users interact with your app, we can use the v-on directive to attach event listeners that invoke methods on our Vue instances--> 
       <div id="user-in-reverse">
         <button v-on:click="reverseMessage">Reverse Message</button>
       </div>
       <div id="user-in-list-add">
         <button v-on:click="addToList">add to list</button>
+      </div>
+      <!-- Vue also provides the v-model directive that makes two-way binding between form input and app state a breeze -->
+      <div id="v-model-stuff">
+          <p>{{ inputExample }}</p>
+          <input v-model="inputExample">
       </div>
     </div>
 </body>
@@ -39,6 +45,7 @@ var app2 = new Vue({
         message2: 'You are hovering',
         showText: true,  // in js console of browser set app2.showText = false to make text disappear
         todos: [{text: "learn javascript"}, {text: "learn vue"}, {text: "try to love javascript"}],
+        inputExample: 'this is an input example',
     },
     methods: {
         reverseMessage: function() {
