@@ -7,42 +7,62 @@
 </head>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
 <script>
-// In Vue, a component is essentially a Vue instance with pre-defined options.
+// A component is essentially a Vue instance with pre-defined options.
 Vue.component('todo-item', {
-    template: '<li>This is a todo, generated from a Vue component</li>'
+    // The todo-item component now accepts a "prop", which is like a custom attribute. This prop is called todo.
+    props: ['todo'],
+    template: '<li>{{ todo.text }}</li>'
 })
+// using components your app might look something like:
+//<div id="app">
+//  <app-nav></app-nav>
+//  <app-view>
+//    <app-sidebar></app-sidebar>
+//    <app-content></app-content>
+//  </app-view>
+//</div>
 </script>
 
 <body>
     <div id="app-2">
+      
       <p>This is app.message: {{ message }}</p>
       <span v-bind:title="message2">
         Hover your mouse over me for a few seconds to see my dynamically bound title!
       </span>
-      <p v-if="showText">Now you see me</p>
+
+      <p v-if="showText">Demonstrate controling visibility with app.showText: Now you see me</p>
+      
+      <h3>A todo list</h3>
       <ol>
         <li v-for="todo in todos">
           {{ todo.text }}
         </li>
       </ol> 
-      <!-- To let users interact with your app, we can use the v-on directive to attach event listeners that invoke methods on our Vue instances--> 
+      
       <div id="user-in-reverse">
+        <p>To let users interact with your app, we can use the v-on directive to attach event listeners that invoke methods on our Vue instances</p>
         <button v-on:click="reverseMessage">Reverse Message</button>
       </div>
+      
+      <h3>call addToList function</h3>
       <div id="user-in-list-add">
         <button v-on:click="addToList">add to list</button>
       </div>
-      <!-- Vue also provides the v-model directive that makes two-way binding between form input and app state a breeze -->
+      
       <div id="v-model-stuff">
+          <p>Vue also provides the v-model directive that makes two-way binding between form input and app state a breeze</p>
           <p>{{ inputExample }}</p>
           <input v-model="inputExample">
       </div>
 
       <div>
+        <p>A grocery list: Create an instance of the todo-item component.. pass the todo into each repeated component using v-bind</p>
         <ol>
-          <!-- Create an instance of the todo-item component -->
-           <todo-item></todo-item>
+           <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
         </ol>
       </div>
  
@@ -59,6 +79,11 @@ var app2 = new Vue({
         showText: true,  // in js console of browser set app2.showText = false to make text disappear
         todos: [{text: "learn javascript"}, {text: "learn vue"}, {text: "try to love javascript"}],
         inputExample: 'this is an input example',
+        groceryList: [
+            { text: 'Vegetables' },
+            { text: 'Cheese' },
+            { text: 'Whatever else humans are supposed to eat' }
+        ],
     },
     methods: {
         reverseMessage: function() {
