@@ -16,22 +16,40 @@
         Hover your mouse over me for a few seconds to see my dynamically bound title!
       </span>
       <p v-if="showText">Now you see me</p>
+      <ol>
+        <li v-for="todo in todos">
+          {{ todo.text }}
+        </li>
+      </ol> 
+      <div id="user-in-reverse">
+        <button v-on:click="reverseMessage">Reverse Message</button>
+      </div>
+      <div id="user-in-list-add">
+        <button v-on:click="addToList">add to list</button>
+      </div>
     </div>
-
 </body>
 
 
 <script>
 var app2 = new Vue({
-  el: '#app-2',
-  data: {
-    message: 'Hello Vue.js!',
-    message2: 'You are hovering',
-    showText: true,  // in js console of browser set app2.showText = false to make text disappear
-  }
+    el: '#app-2',
+    data: {
+        message: 'Hello Vue.js!',
+        message2: 'You are hovering',
+        showText: true,  // in js console of browser set app2.showText = false to make text disappear
+        todos: [{text: "learn javascript"}, {text: "learn vue"}, {text: "try to love javascript"}],
+    },
+    methods: {
+        reverseMessage: function() {
+            this.message = this.message.split('').reverse().join('')
+        },
+        addToList: function() {
+            this.todos.push({text: "a new item"});
+        }
+    }
 })
 </script>
 
 
 </html>
-
