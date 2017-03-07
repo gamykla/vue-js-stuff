@@ -17,6 +17,7 @@ Vue.component('todo-item', {
     props: ['todo'],
     template: '<li>{{ todo.text }}</li>'
 })
+
 // using components your app might look something like:
 //<div id="app">
 //  <app-nav></app-nav>
@@ -25,62 +26,82 @@ Vue.component('todo-item', {
 //    <app-content></app-content>
 //  </app-view>
 //</div>
+
+// another component - a paragraph
+Vue.component('paragraph-item', {
+    props: ['paragraph'],
+    template: '<p>{{ paragraph.text }}</p>'
+})
 </script>
 
 <body>
     <div id="app-2">
-      
-      <p>This is app.message: {{ message }}</p>
-      <p>Use a computed property to reverse the message: {{reversedMessage}}</p>
-      <span v-bind:title="message2">
-        Hover your mouse over me for a few seconds to see my dynamically bound title!
-      </span>
 
-      <p v-if="showText">Demonstrate controling visibility with app.showText: Now you see me</p>
-      
-      <h3>A todo list</h3>
-      <ol>
-        <li v-for="todo in todos">
-          {{ todo.text }}
-        </li>
-      </ol> 
-      
-      <div id="user-in-reverse">
-        <p>To let users interact with your app, we can use the v-on directive to attach event listeners that invoke methods on our Vue instances</p>
-        <button v-on:click="reverseMessage">Reverse Message</button>
-      </div>
-      
-      <h3>call addToList function</h3>
-      <div id="user-in-list-add">
-        <button v-on:click="addToList">add to list</button>
-      </div>
-      
-      <div id="v-model-stuff">
+        <p>This is app.message in the Vue data: {{ message }}</p>
+        <p>Use a Vue computed property to reverse the message: {{reversedMessage}}</p>
+        
+        <h3>Demonstrate v-bind:title</h3>
+        <span v-bind:title="message2">
+        Hover your mouse over me for a few seconds to see my dynamically bound title!
+        </span>
+
+        <h3>The paragraph below is conditionally rendered by v-if directive.</h3>
+        <p v-if="showText">A demo of conditional rendering with v-if</p>
+
+        <!-- Demonstrate iteration over app.data -->     
+        <h3>Iterate over Vue data and demonstrate handlebar rendering</h3>
+        <ol>
+            <li v-for="todo in todos">
+              {{ todo.text }}
+            </li>
+        </ol> 
+
+        <div id="user-in-reverse">
+            <h3>v-on:click calls Vue method which manipulates data</h3>
+            <p>To let users interact with your app, we can use the v-on directive to attach event listeners that invoke methods on our Vue instances</p>
+            <button v-on:click="reverseMessage">Reverse Message</button>
+        </div>
+
+        <h3>call addToList function with v-on:click</h3>
+        <div id="user-in-list-add">
+            <button v-on:click="addToList">add to list</button>
+        </div>
+
+        <div id="v-model-stuff">
+          <h3>user input handling and applying filter function</h3>
           <p>Vue also provides the v-model directive that makes two-way binding between form input and app state a breeze</p>
           <p>{{ inputExample }}</p>
           <p>with a filter function: {{ inputExample | capitalize }}</p>
           <input v-model="inputExample">
-      </div>
+        </div>
 
-      <div>
-        <p>A grocery list: Create an instance of the todo-item component.. pass the todo into each repeated component using v-bind</p>
-        <ol>
-           <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
-        </ol>
-      </div>
+        <!-- Use the todo-item component we defined to present a listing of grocery items tha are found in the vue data -->
+        <div>
+            <h3>Grocery list, custom component, v-for iteration</h3>
+            <p>A grocery list: Create an instance of the todo-item component.. pass the todo into each repeated component using v-bind</p>
+            <ol>
+               <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+            </ol>
+        </div>
 
-      <div id="watch-example">
+        <!-- use another custom component, use v-for control structure to iterate -->
+        <div>
+            <h3>A bunch of paragraphs w/ custom item</h3>
+            <paragraph-item v-for="item in paragraphs" v-bind:paragraph="item"></paragraph-item>
+        </div>
+
+
+        <!-- Demonstrate how watches work -->
+        <div id="watch-example">
           <h3>watch example</h3>
           <p>
             Ask a yes/no question:
             <input v-model="question">
           </p>
           <p>{{ answer }}</p>
-      </div>
+        </div>
 
-
- 
-   </div> <!-- app-2 div -->
+    </div> <!-- app-2 div -->
 </body>
 
 
@@ -100,6 +121,10 @@ var app = new Vue({
             { text: 'Vegetables' },
             { text: 'Cheese' },
             { text: 'Whatever else humans are supposed to eat' }
+        ],
+        paragraphs: [
+            { text: 'This is para 1' },
+            { text: 'This is para 2' },
         ],
         question: '',
         answer: 'I cannot give you an answer until you ask a question!'
