@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>App</title>
+</head>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<body>
+    <div id="app">
+        <div id="nav-menu">        
+            <ul id="example-1">
+                <li v-for="item in navMenuItems">
+                    {{ item.displayText }}
+                </li>
+            </ul>
+        </div>
+        <div id="contextMenu"></div>
+        <div id="pageContent"></div>
+    </div>
+</body>
+
+<script>
+var app = new Vue({
+    el: "#app",
+    data: {
+    navMenuItems: [
+      { displayText: 'Nav Menu 1' },
+      { displayText: 'Nav Menu 2' }
+    ]
+  }
+})
+</script>
+
+</html>
