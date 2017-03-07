@@ -12,10 +12,21 @@
 <script>
 // A component is essentially a Vue instance with pre-defined options.
 // all Vue components are essentially extended Vue instances.
+
+// communication between parent and child components can be summarized as "props down, events up"
+// the parent passes data down to the child via props and child sends messages to parent via events.
 Vue.component('todo-item', {
     // The todo-item component now accepts a "prop", which is like a custom attribute. This prop is called todo.
-    props: ['todo'],
-    template: '<li>{{ todo.text }}</li>'
+    
+    // property type declaration used for validations
+    // valid types String, Number, Boolean, Function, Object, Array    
+    props: {todo: Object},  
+    
+    template: '<li>{{ todo.text }}</li>',
+    // in a component data must be a function
+    data: function () {
+        return {myMsg: "123"}    
+    }
 })
 
 // using components your app might look something like:
@@ -35,6 +46,8 @@ Vue.component('paragraph-item', {
 </script>
 
 <body>
+    <h1>Vue.js Demo</h1>
+
     <div id="app-2">
 
         <p>This is app.message in the Vue data: {{ message }}</p>
@@ -47,6 +60,7 @@ Vue.component('paragraph-item', {
 
         <h3>The paragraph below is conditionally rendered by v-if directive.</h3>
         <p v-if="showText">A demo of conditional rendering with v-if</p>
+        <p><a href="https://vuejs.org/v2/guide/conditional.html">see vue conditional rendering</a></p>
 
         <!-- Demonstrate iteration over app.data -->     
         <h3>Iterate over Vue data and demonstrate handlebar rendering</h3>
@@ -54,7 +68,8 @@ Vue.component('paragraph-item', {
             <li v-for="todo in todos">
               {{ todo.text }}
             </li>
-        </ol> 
+        </ol>   
+        <p><a href="https://vuejs.org/v2/guide/list.html">see vue list rendering</a></p>
 
         <div id="user-in-reverse">
             <h3>v-on:click calls Vue method which manipulates data</h3>
@@ -66,6 +81,8 @@ Vue.component('paragraph-item', {
         <div id="user-in-list-add">
             <button v-on:click="addToList">add to list</button>
         </div>
+        <p><a href="https://vuejs.org/v2/guide/events.html">more on event handling</a></p>
+        
 
         <div id="v-model-stuff">
           <h3>user input handling and applying filter function</h3>
@@ -73,6 +90,7 @@ Vue.component('paragraph-item', {
           <p>{{ inputExample }}</p>
           <p>with a filter function: {{ inputExample | capitalize }}</p>
           <input v-model="inputExample">
+          <p><a href="https://vuejs.org/v2/guide/forms.html">more on form input bindings with v-model</a></p>
         </div>
 
         <!-- Use the todo-item component we defined to present a listing of grocery items tha are found in the vue data -->
@@ -87,7 +105,7 @@ Vue.component('paragraph-item', {
         <!-- use another custom component, use v-for control structure to iterate -->
         <div>
             <h3>A bunch of paragraphs w/ custom item</h3>
-            <paragraph-item v-for="item in paragraphs" v-bind:paragraph="item"></paragraph-item>
+            <paragraph-item v-for="paragraph in paragraphs" v-bind:paragraph="paragraph"></paragraph-item>
         </div>
 
 
@@ -107,8 +125,9 @@ Vue.component('paragraph-item', {
 
 <script>
 // Vue API: https://vuejs.org/v2/api/
+// Vue "root instance"
 var app = new Vue({
-    el: '#app-2',
+    el: '#app-2', // points to an element
     // It should be noted that only these proxied properties(in data) are reactive. 
     // If you attach a new property to the instance after it has been created, it will not trigger any view updates
     data: {
@@ -123,8 +142,8 @@ var app = new Vue({
             { text: 'Whatever else humans are supposed to eat' }
         ],
         paragraphs: [
-            { text: 'This is para 1' },
-            { text: 'This is para 2' },
+            { text: 'This is para 1', visible: false},
+            { text: 'This is para 2', visible: false},
         ],
         question: '',
         answer: 'I cannot give you an answer until you ask a question!'
