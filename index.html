@@ -2,23 +2,110 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>App</title>
+<meta charset="UTF-8">
+<title>App</title>
+
+<style>
+
+/* main nav menu */
+#nav-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: gray;
+}
+#nav-menu li {
+    float: left;
+}
+#nav-menu li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+#nav-menu li a:hover {
+    background-color: #111111;
+}
+
+/* page header*/
+#header {
+    padding: 1em;
+    color: black;
+    background-color: white;
+    clear: left;
+    text-align: center;
+}
+
+#footer {
+    padding: 1em;
+    color: black;
+    background-color: white;
+    clear: left;
+    text-align: center;
+}
+
+/*Main app panes, context menu and display area*/
+.mainContainer {
+    background: yellow;
+    margin: auto;
+    padding: 3px;
+}
+
+.contextMenu {
+    width: 15%;
+    background: red;
+    float: left;
+}
+.mainAppPane {
+    background: white;
+}
+
+/*left nav style*/
+#contextMenu ul {
+    list-style-type: none;
+    background-color:red;
+}
+   
+#contextMenu ul a {
+    text-decoration: none;
+}
+
+</style>
 </head>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 
 <body>
     <div id="app">
+        
+        <!-- header stuff -->
+        <div id="header">This is what's printed on the header</div>
+
         <div id="nav-menu">        
-            <ul id="example-1">
+            <ul>
                 <li v-for="item in navMenuItems">
-                    {{ item.displayText }}
+                    <a href="#">{{ item.displayText }}</a>
                 </li>
             </ul>
         </div>
-        <div id="contextMenu"></div>
-        <div id="pageContent"></div>
+        
+        <!-- Main area where stuff changes -->
+        <div id="mainArea" class="mainContainer">
+            <div id="contextMenu" class="contextMenu">
+                <ul>
+                    <li v-for="item in pageContextItems">
+                        <a href="#">{{ item.displayText }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="pageContent" class="mainAppPane">What is Lorem Ipsum?
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem ILorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem </div>
+        </div>
+
+        <!-- footer stuff -->
+        <div id="footer">The page footer</div>
     </div>
 </body>
 
@@ -27,9 +114,14 @@ var app = new Vue({
     el: "#app",
     data: {
     navMenuItems: [
-      { displayText: 'Nav Menu 1' },
-      { displayText: 'Nav Menu 2' }
-    ]
+        { displayText: 'Nav Menu 1' },
+        { displayText: 'Nav Menu 2' },
+        { displayText: 'Nav Menu 3' }
+    ],
+    pageContextItems: [
+        { displayText: 'context item 1' },
+        { displayText: 'context item 2' },
+        { displayText: 'context item 3' }]
   }
 })
 </script>
