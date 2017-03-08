@@ -17,7 +17,7 @@
 Vue.component('result', {
   template: `<div>
     <h3 v-text="title"></h3>
-    <a :href="url">Find out more</a>
+        <a :href="url">Find out more</a>
     </div>
   `,
   props: [ 'title', 'url' ]
@@ -43,12 +43,11 @@ Vue.component('results-list', {
 Vue.component('search-box', {
     template: `
     <div>
-    <form action="?"  @submit="onSearch">
-      <p>{{ title }}</p>
-      <input type="text" placeholder="Search" v-model="title">
-      <button type="submit" :disabled="searching">Search</button>
-    </form>
-    <results-list :results="results"></results-list>
+        <form action="?"  @submit="onSearch">
+          <input type="text" placeholder="Search" v-model="title">
+          <button type="submit" :disabled="searching">Search</button>
+        </form>
+        <results-list :results="results"></results-list>
     </div>
     `,
     data() {
@@ -56,18 +55,6 @@ Vue.component('search-box', {
             title: '',
             searching: false,
             results: [
-                {
-                  title: 'Batman Begins',
-                  url: 'https://www.imdb.com/title/tt0372784'
-                },
-                {
-                  title: 'The Dark Knight',
-                  url: 'https://www.imdb.com/title/tt0468569'
-                },
-                {
-                  title: 'The Dark Knight Rises',
-                  url: 'https://www.imdb.com/title/tt1345836'
-                }
             ]
         }
     },
@@ -76,12 +63,16 @@ Vue.component('search-box', {
             const BASE_URL = 'https://www.omdbapi.com/?r=json';
             this.searching = true;
             request_url = BASE_URL + "&s=" + this.title
-            alert(request_url)
-            
+
+            // TODO why does this get replaced right after??
+            this.results = [{title: "abc", url: "http://www.google.com"}];
+
             fetch(request_url)
                 .then((resp) => resp.json())
                 .then(function(data) {
-                    let authors = data.results
+                    // todo update search results here!
+                    // maybe the results need to be separate from the search-box and nested in the root app 
+                    // see how to pass data back to the root app to update results list
                  })
                 .catch(function() {
                     alert("here2")
