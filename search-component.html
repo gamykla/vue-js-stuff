@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title of the document</title>
+    <title>Component Dependency Chaining</title>
 </head>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -32,26 +32,14 @@ Vue.component('results-list', {
       </li>
     </ul>
   `,
+  props: [ 'results'],
   data() {
     return {
-      results: [
-        {
-          title: 'Batman Begins',
-          url: 'https://www.imdb.com/title/tt0372784'
-        },
-        {
-          title: 'The Dark Knight',
-          url: 'https://www.imdb.com/title/tt0468569'
-        },
-        {
-          title: 'The Dark Knight Rises',
-          url: 'https://www.imdb.com/title/tt1345836'
-        }
-      ]
     };
   }
 });
 
+// Search box will chain all the components together
 Vue.component('search-box', {
     template: `
     <div>
@@ -60,19 +48,32 @@ Vue.component('search-box', {
       <input type="text" placeholder="Search" v-model="title">
       <button type="submit" :disabled="searching">Search</button>
     </form>
-    <results-list></results-list>
+    <results-list :results="results"></results-list>
     </div>
     `,
     data() {
         return {
             title: '',
-            searching: false
+            searching: false,
+            results: [
+                {
+                  title: 'Batman Begins',
+                  url: 'https://www.imdb.com/title/tt0372784'
+                },
+                {
+                  title: 'The Dark Knight',
+                  url: 'https://www.imdb.com/title/tt0468569'
+                },
+                {
+                  title: 'The Dark Knight Rises',
+                  url: 'https://www.imdb.com/title/tt1345836'
+                }
+            ]
         }
     },
     methods: {
         onSearch() {    
-            //const BASE_URL = 'https://www.omdbapi.com/?r=json';
-            const BASE_URL = 'https://randomuser.me/api/?results=10'
+            const BASE_URL = 'https://www.omdbapi.com/?r=json';
             this.searching = true;
             request_url = BASE_URL + "&s=" + this.title
             alert(request_url)
@@ -84,7 +85,6 @@ Vue.component('search-box', {
                  })
                 .catch(function() {
                     alert("here2")
-                    console.log("What the fuck")
                 });
         }
     }
