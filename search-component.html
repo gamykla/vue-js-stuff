@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+</head>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<body>
+    <div id="app"></div>
+</body>
+
+<script>
+// RESULT component
+Vue.component('result', {
+  template: `<div>
+    <h3 v-text="title"></h3>
+    <a :href="url">Find out more</a>
+    </div>
+  `,
+  props: [ 'title', 'url' ]
+});
+
+// RESULT LIST component depends on RESULT component
+Vue.component('results-list', {
+  template: `
+    <ul>
+      <li v-for="r in results">
+        <result :title="r.title" :url="r.url"></result>
+      </li>
+    </ul>
+  `,
+  data() {
+    return {
+      results: [
+        {
+          title: 'Batman Begins',
+          url: 'https://www.imdb.com/title/tt0372784'
+        },
+        {
+          title: 'The Dark Knight',
+          url: 'https://www.imdb.com/title/tt0468569'
+        },
+        {
+          title: 'The Dark Knight Rises',
+          url: 'https://www.imdb.com/title/tt1345836'
+        }
+      ]
+    };
+  }
+});
+
+Vue.component('search-box', {
+    template: `
+    <div>
+    <form action="?"  @submit="onSearch">
+      <p>{{ title }}</p>
+      <input type="text" placeholder="Search" v-model="title">
+      <button type="submit" :disabled="searching">Search</button>
+    </form>
+    <results-list></results-list>
+    </div>
+    `,
+    data() {
+        return {
+            title: '',
+            searching: false
+        }
+    },
+    methods: {
+        onSearch() {    
+            //const BASE_URL = 'https://www.omdbapi.com/?r=json';
+            const BASE_URL = 'https://randomuser.me/api/?results=10'
+            this.searching = true;
+            request_url = BASE_URL + "&s=" + this.title
+            alert(request_url)
+            
+            fetch(request_url)
+                .then((resp) => resp.json())
+                .then(function(data) {
+                    let authors = data.results
+                 })
+                .catch(function() {
+                    alert("here2")
+                    console.log("What the fuck")
+                });
+        }
+    }
+});
+
+new Vue({
+    el: '#app',
+    template: `<div>
+               <h1>Search</h1>
+               <h2>Movies</h2>
+               <search-box></search-box>
+               </div>`,
+});
+</script>
+
+
+</html>
