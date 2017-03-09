@@ -1,3 +1,10 @@
+<!--
+Example of component composition with vue.js
+
+references:
+https://jeremenichelli.github.io/2016/06/building-component-based-app-vue/
+
+-->
 <!DOCTYPE html>
 <html>
 
@@ -13,12 +20,13 @@
 </body>
 
 <script>
+
 // RESULT component
 Vue.component('result', {
   template: `<div>
-    <h3 v-text="title"></h3>
-        <a :href="url">Find out more</a>
-    </div>
+                <h3 v-text="title"></h3>
+                <a :href="url">Find out more</a>
+             </div>
   `,
   props: [ 'title', 'url' ]
 });
@@ -26,11 +34,13 @@ Vue.component('result', {
 // RESULT LIST component depends on RESULT component
 Vue.component('results-list', {
   template: `
-    <ul>
-      <li v-for="r in results">
-        <result :title="r.title" :url="r.url"></result>
-      </li>
-    </ul>
+    <div>
+        <ul>
+          <li v-for="r in results">
+            <result :title="r.title" :url="r.url"></result>
+          </li>
+        </ul>
+    </div>
   `,
   props: [ 'results'],
   data() {
@@ -45,38 +55,31 @@ Vue.component('search-box', {
     <div>
         <form action="?"  @submit="onSearch">
           <input type="text" placeholder="Search" v-model="title">
-          <button type="submit" :disabled="searching">Search</button>
+          <button type="submit" :disabled="searchIsInProgress">Search</button>
         </form>
-        <results-list :results="results"></results-list>
     </div>
     `,
     data() {
         return {
             title: '',
-            searching: false,
-            results: [
-            ]
+            searchIsInProgress: false,
         }
     },
     methods: {
         onSearch() {    
             const BASE_URL = 'https://www.omdbapi.com/?r=json';
-            this.searching = true;
-            request_url = BASE_URL + "&s=" + this.title
-
-            // TODO why does this get replaced right after??
-            this.results = [{title: "abc", url: "http://www.google.com"}];
-
-            fetch(request_url)
-                .then((resp) => resp.json())
-                .then(function(data) {
-                    // todo update search results here!
-                    // maybe the results need to be separate from the search-box and nested in the root app 
-                    // see how to pass data back to the root app to update results list
-                 })
-                .catch(function() {
-                    alert("here2")
-                });
+            this.searchIsInProgress = true;
+            var request_url = BASE_URL + "&s=" + this.title
+            
+            var xhr = new XMLHttpRequest()
+            var self = this
+            xhr.open('GET', request_url)
+            xhr.onload = function () {
+                self.searchIsInProgress = false;
+                var jsonResponse = JSON.parse(xhr.responseText)
+                self.$emit('searchResultsAvailable', jsonResponse)
+            }
+            xhr.send()
         }
     }
 });
@@ -84,10 +87,21 @@ Vue.component('search-box', {
 new Vue({
     el: '#app',
     template: `<div>
-               <h1>Search</h1>
-               <h2>Movies</h2>
-               <search-box></search-box>
+                   <h1>Search</h1>
+                   <h2>Movies</h2>
+                   <search-box v-on:searchResultsAvailable="onSearchResults"></search-box>
+                   <results-list :results="results"></results-list>
                </div>`,
+    data: {
+        //results: [{title: "XXXXXXXXXXXXXX", url: "http://www.google.com"}]
+        results: []
+    },
+    methods: {
+        onSearchResults(jsonResults) {
+            this.results = [{title:"000000000", url: "http://www.google.com"}]
+            // Response has 'Search': [{Title, Poster}]
+        }
+    },
 });
 </script>
 
