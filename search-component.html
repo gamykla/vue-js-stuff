@@ -17,16 +17,6 @@ https://forum.vuejs.org/t/passing-data-back-to-parent/1201
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 
 <script>
-// RESULT component
-Vue.component('result', {
-  template: `<div>
-                <h3 v-text="title"></h3>
-                <a :href="url">Find out more</a>
-             </div>
-  `,
-  props: [ 'title', 'url' ]
-});
-
 // RESULT LIST component depends on RESULT component
 Vue.component('results-list', {
   template: `
@@ -41,12 +31,23 @@ Vue.component('results-list', {
   props: [ 'results'],
 });
 
+// RESULT component
+Vue.component('result', {
+  template: `<div>
+                <h3 v-text="title"></h3>
+                <a :href="url">Find out more</a>
+             </div>
+  `,
+  props: [ 'title', 'url' ]
+});
+
+
 // Search box will chain all the components together
 // and emit search results to the parent
 Vue.component('search-box', {
     template: `
     <div>
-        <form action="?"  @submit="onSearch">
+        <form action="?" v-on:submit="onSubmit">
           <input type="text" placeholder="Search" v-model="title">
           <button type="submit" :disabled="searchIsInProgress">Search</button>
         </form>
@@ -59,27 +60,29 @@ Vue.component('search-box', {
         }
     },
     methods: {
-        onSearch: function() {    
+        onSubmit: function() {    
             const BASE_URL = 'https://www.omdbapi.com/?r=json';
             this.searchIsInProgress = true;
             var request_url = BASE_URL + "&s=" + this.title
             
-            var xhr = new XMLHttpRequest()
-            var self = this
-            xhr.open('GET', request_url)
-            xhr.onload = function () {
-                self.searchIsInProgress = false;
-                var jsonResponse = JSON.parse(xhr.responseText)
-                self.$emit('searchResultsAvailable', jsonResponse)
-            }
-            xhr.send()
+            this.$emit('searchResultsAvailable', "HELLO")
+            //var xhr = new XMLHttpRequest()
+            //var self = this
+            //xhr.open('GET', request_url)
+            //xhr.onload = function () {
+            //    self.searchIsInProgress = false;
+            //    var jsonResponse = JSON.parse(xhr.responseText)
+                //self.$emit('searchResultsAvailable', jsonResponse)
+            //}
+            //xhr.send()
         }
     }
 });
 </script>
 
 <body>
-    <div id="app"></div>
+    <div id="app">
+    </div>
 </body>
 
 
@@ -89,18 +92,18 @@ window.vue = new Vue({
     template: `<div>
                    <h1>{{appTitle}}</h1>
                    <search-box v-on:searchResultsAvailable="onSearchResults"></search-box>
-                   <results-list v-bind:results="results"></results-list>
+                   <results-list v-bind:results="searchResults"></results-list>
                </div>`,
     data: {
         //results: [{title: "XXXXXXXXXXXXXX", url: "http://www.google.com"}]
-        results: [],
+        searchResults: [],
         appTitle: "Search Movies"
+        // TODO figure out why this keeps getting reset. See vuex maybe? https://vuex.vuejs.org/en/intro.html
     },
     methods: {
         onSearchResults: function(jsonResults) {
             // jsonResults has 'Search': [{Title, Poster}]
-            this.appTitle = "fuck"
-            this.results = [{title:"000000000", url: "http://www.google.com"}]
+            this.searchResults = [{title:"000000000", url: "http://www.google.com"}]
         }
     },
     beforeCreate: function() {
