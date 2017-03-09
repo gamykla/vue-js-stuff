@@ -3,6 +3,7 @@ Example of component composition with vue.js
 
 references:
 https://jeremenichelli.github.io/2016/06/building-component-based-app-vue/
+https://forum.vuejs.org/t/passing-data-back-to-parent/1201
 
 -->
 <!DOCTYPE html>
@@ -43,10 +44,6 @@ Vue.component('results-list', {
     </div>
   `,
   props: [ 'results'],
-  data() {
-    return {
-    };
-  }
 });
 
 // Search box will chain all the components together
@@ -84,11 +81,10 @@ Vue.component('search-box', {
     }
 });
 
-new Vue({
+app = new Vue({
     el: '#app',
     template: `<div>
-                   <h1>Search</h1>
-                   <h2>Movies</h2>
+                   <h1>Search Movies</h1>
                    <search-box v-on:searchResultsAvailable="onSearchResults"></search-box>
                    <results-list :results="results"></results-list>
                </div>`,
@@ -98,8 +94,8 @@ new Vue({
     },
     methods: {
         onSearchResults(jsonResults) {
+            // jsonResults has 'Search': [{Title, Poster}]
             this.results = [{title:"000000000", url: "http://www.google.com"}]
-            // Response has 'Search': [{Title, Poster}]
         }
     },
 });
