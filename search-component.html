@@ -1,5 +1,5 @@
 <!--
-Example of component composition with vue.js
+Example of component composition with vue.js, props down, events up, that's the way we like to script.
 
 references:
 https://jeremenichelli.github.io/2016/06/building-component-based-app-vue/
@@ -14,7 +14,9 @@ https://forum.vuejs.org/t/passing-data-back-to-parent/1201
     <title>Component Dependency Chaining</title>
 </head>
 
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue@2.2.2/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@2.2.1"></script>
+
 
 <script>
 // RESULT LIST component depends on RESULT component
@@ -47,7 +49,8 @@ Vue.component('result', {
 Vue.component('search-box', {
     template: `
     <div>
-        <form action="?" v-on:submit="onSubmit">
+        <p>Your search: {{title}}</p>
+        <form action="#" v-on:submit="onSubmit">
           <input type="text" placeholder="Search" v-model="title">
           <button type="submit" :disabled="searchIsInProgress">Search</button>
         </form>
@@ -65,16 +68,24 @@ Vue.component('search-box', {
             this.searchIsInProgress = true;
             var request_url = BASE_URL + "&s=" + this.title
             
-            this.$emit('searchResultsAvailable', "HELLO")
-            //var xhr = new XMLHttpRequest()
-            //var self = this
-            //xhr.open('GET', request_url)
-            //xhr.onload = function () {
-            //    self.searchIsInProgress = false;
-            //    var jsonResponse = JSON.parse(xhr.responseText)
-                //self.$emit('searchResultsAvailable', jsonResponse)
-            //}
-            //xhr.send()
+            var xhr = new XMLHttpRequest()
+            var self = this
+            xhr.open('GET', request_url)
+            xhr.onload = function () {
+                var searchResultsJson = [];
+
+                var jsonResponse = JSON.parse(xhr.responseText)
+                if ('Search' in jsonResponse) {
+                    var resultArray = jsonResponse['Search'];
+                    for(var i = 0; i < resultArray.length; i++) {
+                        var entry = resultArray[i];
+                        searchResultsJson.push({title: entry['Title'], url: entry['Poster']});
+                    }
+                }
+                self.$emit('searchResultsAvailable', searchResultsJson)
+                self.searchIsInProgress = false;
+            }
+            xhr.send()
         }
     }
 });
@@ -87,7 +98,7 @@ Vue.component('search-box', {
 
 
 <script>
-window.vue = new Vue({
+rootView = new Vue({
     el: '#app',
     template: `<div>
                    <h1>{{appTitle}}</h1>
@@ -95,15 +106,12 @@ window.vue = new Vue({
                    <results-list v-bind:results="searchResults"></results-list>
                </div>`,
     data: {
-        //results: [{title: "XXXXXXXXXXXXXX", url: "http://www.google.com"}]
         searchResults: [],
-        appTitle: "Search Movies"
-        // TODO figure out why this keeps getting reset. See vuex maybe? https://vuex.vuejs.org/en/intro.html
+        appTitle: "Search Movies1"
     },
     methods: {
         onSearchResults: function(jsonResults) {
-            // jsonResults has 'Search': [{Title, Poster}]
-            this.searchResults = [{title:"000000000", url: "http://www.google.com"}]
+            this.searchResults = jsonResults
         }
     },
     beforeCreate: function() {
