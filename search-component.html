@@ -1,5 +1,6 @@
 <!--
-Example of component composition with vue.js, props down, events up, that's the way we like to script.
+Example of component composition with vue.js, props down, events up
+Using twitter bootstrap for basic css styles
 
 references:
 https://jeremenichelli.github.io/2016/06/building-component-based-app-vue/
@@ -15,6 +16,7 @@ https://forum.vuejs.org/t/passing-data-back-to-parent/1201
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script src="https://unpkg.com/vue@2.2.2/dist/vue.js"></script>
@@ -27,8 +29,9 @@ https://forum.vuejs.org/t/passing-data-back-to-parent/1201
 Vue.component('results-list', {
   template: `
     <div>
-        <ul>
-          <li v-for="r in results">
+        <h3 v-if="results.length > 0">Search Results</h3>
+        <ul class="list-group">
+          <li class="list-group-item" v-for="r in results">
             <result :title="r.title" :url="r.url"></result>
           </li>
         </ul>
@@ -53,10 +56,12 @@ Vue.component('result', {
 Vue.component('search-box', {
     template: `
     <div>
-        <p>Your search: {{title}}</p>
         <form action="#" v-on:submit="onSubmit">
-          <input type="text" placeholder="Search" v-model="title">
-          <button type="submit" :disabled="searchIsInProgress">Search</button>
+            <div class="form-group">
+                <label for="movieSearchInput">Enter film search query</label>
+                <input class="form-control" id="movieSearchInput" type="text" placeholder="Search" v-model="title">
+            </div>
+            <button class="btn btn-primary" type="submit" :disabled="searchIsInProgress">Search</button>
         </form>
     </div>
     `,
@@ -96,7 +101,6 @@ Vue.component('search-box', {
 </script>
 
 <body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <div id="app">
     </div>
 </body>
@@ -105,7 +109,7 @@ Vue.component('search-box', {
 <script>
 rootView = new Vue({
     el: '#app',
-    template: `<div class="container-fluid">
+    template: `<div class="container">
                    <h1>{{appTitle}}</h1>
                    <search-box v-on:searchResultsAvailable="onSearchResults"></search-box>
                    <results-list v-bind:results="searchResults"></results-list>
