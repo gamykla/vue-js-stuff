@@ -7,15 +7,19 @@ https://forum.vuejs.org/t/passing-data-back-to-parent/1201
 
 -->
 <!DOCTYPE html>
-<html>
+<html langh="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Component Dependency Chaining</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script src="https://unpkg.com/vue@2.2.2/dist/vue.js"></script>
 <script src="https://unpkg.com/vuex@2.2.1"></script>
+
 
 
 <script>
@@ -35,9 +39,9 @@ Vue.component('results-list', {
 
 // RESULT component
 Vue.component('result', {
-  template: `<div>
+  template: `<div class="row">
                 <h3 v-text="title"></h3>
-                <a :href="url">Find out more</a>
+                <img :src="url"></img>
              </div>
   `,
   props: [ 'title', 'url' ]
@@ -92,6 +96,7 @@ Vue.component('search-box', {
 </script>
 
 <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <div id="app">
     </div>
 </body>
@@ -100,14 +105,14 @@ Vue.component('search-box', {
 <script>
 rootView = new Vue({
     el: '#app',
-    template: `<div>
+    template: `<div class="container-fluid">
                    <h1>{{appTitle}}</h1>
                    <search-box v-on:searchResultsAvailable="onSearchResults"></search-box>
                    <results-list v-bind:results="searchResults"></results-list>
                </div>`,
     data: {
         searchResults: [],
-        appTitle: "Search Movies1"
+        appTitle: "Search Movies"
     },
     methods: {
         onSearchResults: function(jsonResults) {
