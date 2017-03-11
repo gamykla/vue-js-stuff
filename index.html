@@ -28,7 +28,7 @@ body {
 }
 
 .navbar-fixed-left {
-  width: 100px;
+  width: 120px;
   float: left;
   border-radius: 0;
   height: 100%;
@@ -64,19 +64,18 @@ body {
 
         <nav class="navbar navbar-inverse">
             <ul class="nav navbar-nav">
-                <li><a href="#">Link1</a></li>
-                <li><a href="#">Link2</a></li>
-                <li><a href="#">Link3</a></li>
+                 <li v-for="item in navMenuItems">
+                    <a v-on:click="navigationMenuItemSelected" href="#">{{ item.displayText }}</a>
+                </li>
             </ul>
             <p class="navbar-text">Some text blah blah blah</p>
         </nav>
 
         <div class="navbar navbar-fixed-left">
           <ul class="nav navbar-nav">
-           <li><a href="#">Side Link1</a></li>
-           <li><a href="#">Side Link2</a></li>
-           <li><a href="#">Side Link3</a></li>
-           <li><a href="#">Side Link4</a></li>
+             <li v-for="item in pageContextItems">
+                 <a v-on:click="contextMenuItemSelected" href="#">{{ item.displayText }}</a>
+             </li>
           </ul>
         </div>
 
