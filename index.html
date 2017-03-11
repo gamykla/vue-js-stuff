@@ -5,89 +5,30 @@
 <meta charset="UTF-8">
 <title>App</title>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 <style>
-
-/* main nav menu */
-#nav-menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: gray;
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 90%;
+	height: 60px;
 }
-#nav-menu li {
-    float: left;
-}
-#nav-menu li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 16px;
-    text-decoration: none;
-}
-#nav-menu li a:hover {
-    background-color: #111111;
-}
-
-/* page header*/
-#header {
-    padding: 1em;
-    color: black;
-    background-color: white;
-    clear: left;
-    text-align: center;
-}
-
-#footer {
-    padding: 1em;
-    color: black;
-    background-color: white;
-    clear: left;
-    text-align: center;
-}
-
-/*Main app panes, context menu and display area*/
-.mainContainer {
-    padding:5px;
-    background:#F1F1F1
-}
-
-.contextMenu {
-    width:10%;
-    background:#ddd;
-    padding:10px;
-    display:table-cell;
-    vertical-align:top;
-    background: red;
-}
-.mainAppPane {
-    width:85%;
-    background:#ddd;
-    padding:10px;
-    display:table-cell;
-    vertical-align:top;
-    background: yellow;
-}
-
-/*left nav style*/
-#contextMenu ul {
-    list-style-type: none;
-}
-   
-#contextMenu ul a {
-    text-decoration: none;
-}
-
 </style>
 </head>
 
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
 <body>
-    <div id="app">
+    <div id="app" class="container">
         
         <!-- header stuff -->
-        <div id="header">This is what's printed on the header</div>
+        <div id="header" class="jumbotron">
+            <h1>This is the page header title</h1>
+            <p>Blah blah blah</p>
+        </div>
 
         <div id="nav-menu">        
             <ul>
@@ -110,7 +51,12 @@
         </div>
 
         <!-- footer stuff -->
-        <div id="footer">The page footer</div>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">This is the footer stuff. (c) jelis</p>
+            </div>
+        </footer>
+
     </div>
 </body>
 
