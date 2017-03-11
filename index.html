@@ -9,29 +9,52 @@
 
 <!-- http://www.quackit.com/css/css_color_codes.cfm -->
 <style>
-.footer {
-	position: absolute;
-	bottom: 0;
-	width: 90%;
-	height: 60px;
+body {
+    background-color: #F7F7F7;
 }
+
 .jumbotron {
-    background-color: rgb(39, 70, 149);
-    color: #EFF2F9;
+    background-color: #2086CA;
+    color: white;
+    margin-bottom: 0;
 }
 .jumbotron p {
-    color: #798093;
+    color: white;
 }
+.navbar {
+    margin-bottom: 0;
+    background-color: #244E6A;
+    border-color: #244E6A;
+}
+
+.navbar-fixed-left {
+  width: 100px;
+  float: left;
+  border-radius: 0;
+  height: 100%;
+  background-color: #F7F7F7;
+  border-color: #F7F7F7;
+}
+
+.pageContent {
+    margin-left: 125px;
+    margin-right: 50px;
+    margin-top: 20px;
+}
+
+
 </style>
 
 </head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
 <body>
-    <div id="app" class="container">
+
+    <div id="app" class="container-fluid">
         
         <!-- header stuff -->
         <div id="header" class="jumbotron">
@@ -39,32 +62,26 @@
             <p>Blah blah blah</p>
         </div>
 
-        <div id="nav-menu">        
-            <ul>
-                <li v-for="item in navMenuItems">
-                    <a v-on:click="navigationMenuItemSelected" href="#">{{ item.displayText }}</a>
-                </li>
+        <nav class="navbar navbar-inverse">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Link1</a></li>
+                <li><a href="#">Link2</a></li>
+                <li><a href="#">Link3</a></li>
             </ul>
-        </div>
-        
-        <!-- Main area where stuff changes -->
-        <div id="mainArea" class="mainContainer">
-            <div id="contextMenu" class="contextMenu">
-                <ul>
-                    <li v-for="item in pageContextItems">
-                        <a v-on:click="contextMenuItemSelected" href="#">{{ item.displayText }}</a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pageContent" class="mainAppPane">{{mainPaneContent}}</div>
+            <p class="navbar-text">Some text blah blah blah</p>
+        </nav>
+
+        <div class="navbar navbar-fixed-left">
+          <ul class="nav navbar-nav">
+           <li><a href="#">Side Link1</a></li>
+           <li><a href="#">Side Link2</a></li>
+           <li><a href="#">Side Link3</a></li>
+           <li><a href="#">Side Link4</a></li>
+          </ul>
         </div>
 
-        <!-- footer stuff -->
-        <footer class="footer">
-            <div class="container">
-                <p class="text-muted">This is the footer stuff. (c) jelis</p>
-            </div>
-        </footer>
+
+        <div class="pageContent"><h2>Blah blah Title</h2>{{mainPaneContent}}</div>
 
     </div>
 </body>
@@ -82,7 +99,7 @@ var app = new Vue({
             { displayText: 'context item 1' },
             { displayText: 'context item 2' },
             { displayText: 'context item 3' }],
-        mainPaneContent: "Fooooooo",
+        mainPaneContent: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
     },
     methods: {
         contextMenuItemSelected: function() {
